@@ -10,8 +10,8 @@
 }
 
 .die-div {
-  height: 75px;
-  width: 75px;
+  height: 55px;
+  width: 55px;
   background-color: var(--BGCOLOR-DARK);
   color: aliceblue;
   display: flex;
