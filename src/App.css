@@ -33,10 +33,111 @@
   grid-template: auto auto / repeat(5, 1fr);
 }
 
+.dot {
+  background-color: aliceblue;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dots2 {
+  display: grid;
+  height: 55px;
+  width: 55px;
+  place-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.dots2 > .dot:nth-child(1), .dots3 > .dot:nth-child(1), .dots4 > .dot:nth-child(1), .dots5 > .dot:nth-child(1), .dots6 > .dot:nth-child(1){
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.dots2 > .dot:nth-child(2), .dots3 > .dot:nth-child(2), .dots4 > .dot:nth-child(4) {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.dots3 {
+  display: grid;
+  height: 55px;
+  width: 55px;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.dots3 > .dot:nth-child(3), .dots5 > .dot:nth-child(5), .dots6 > .dot:nth-child(6) {
+  grid-row: 3;
+  grid-column: 3;
+}
+
+.dots4 {
+  display: grid;
+  height: 55px;
+  width: 55px;
+  place-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.dots4 > .dot:nth-child(2){
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.dots4 > .dot:nth-child(3), .dots6 > .dot:nth-child(3){
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.dots5 {
+  display: grid;
+  height: 55px;
+  width: 55px;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.dots5 > .dot:nth-child(2), .dots6 > .dot:nth-child(2) {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+.dots5 > .dot:nth-child(3) {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.dots5 > .dot:nth-child(4), .dots6 > .dot:nth-child(5) {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.dots6 {
+  display: grid;
+  height: 55px;
+  width: 55px;
+  place-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.dots6 > .dot:nth-child(4) {
+  grid-row: 2;
+  grid-column: 3;
+}
+
 @media screen and (min-width: 576px) {
   .die-div {
     height: 85px;
     width: 85px;
     margin: 1rem;
+  }
+  .dots2, .dots3, .dots3, .dots4, .dots5, .dots6 {
+    height: 85px;
+    width: 85px;   
   }
 }
