@@ -30,7 +30,7 @@
 .game-div {
   display: grid;
   place-items: center;
-  grid-template: auto auto / repeat(5, 1fr);
+  grid-template: auto auto / repeat(3, 1fr);
 }
 
 .dot {
@@ -131,6 +131,12 @@
 }
 
 @media screen and (min-width: 576px) {
+  .game-div {
+    display: grid;
+    place-items: center;
+    grid-template: auto auto / repeat(5, 1fr);
+  }
+
   .die-div {
     height: 85px;
     width: 85px;
