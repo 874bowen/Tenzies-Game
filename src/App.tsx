@@ -26,6 +26,22 @@ const generateNewDie = (): Die => {
 function App() {
 	const [dice, setDice] = useState(allNewDice());
 	const [tenzies, setTenzies] = useState(false);
+	const [isStarted, setIsStarted] = useState(false);
+	const [elapsedTime, setElapsedTime] = useState<number>(0);
+
+	const [rolls, setRolls] = useState(0)
+
+	const [count, setCount] = useState<number>(0);
+
+	useEffect(() => {
+		let intervalId: number;
+		if (isStarted) {
+		intervalId = setInterval(() => {
+		setCount(count => count + 1);
+	}, 1000);
+	}
+	return () => clearInterval(intervalId);
+	}, [isStarted]);
 
 	useEffect(() => {
 		console.log("Dice state changed!");
@@ -37,6 +53,7 @@ function App() {
 			return die.value === firstValue;
 		});
 		if (allHeld && allSameValue) {
+			setElapsedTime(count)
 			setTenzies(true);
 			console.log(tenzies);
 			console.log("You won");
@@ -44,6 +61,7 @@ function App() {
 	}, [dice]);
 
 	function holdDice(id: string): void {
+		setIsStarted(true)
 		setDice((oldDice): Die[] => {
 			return oldDice.map((die) => {
 				return die.id == id ? { ...die, isHeld: !die.isHeld } : die;
@@ -64,9 +82,15 @@ function App() {
 
 	function rollDice() {
 		if (tenzies) {
-			setDice(allNewDice());
 			setTenzies(false)
+			setRolls(-1)
+			setIsStarted(false)
+			setCount(0)
+			setElapsedTime(0)
+			setDice(allNewDice());
 		}
+		setIsStarted(true)
+		setRolls(prevRolls => prevRolls + 1)
 		setDice((oldDice): Die[] => {
 			return oldDice.map((die) => {
 				return die.isHeld ? die : generateNewDie();
@@ -78,6 +102,7 @@ function App() {
 		<section className="wrapper-section">
 			{tenzies && <Confetti />}
 			<h1>Tenzies</h1>
+			<h4>Rolls: {rolls} Time: {elapsedTime > 0 ? elapsedTime : count}</h4>
 			<p className="instructions center">
 				Roll until all dice are the same.
 				<br /> Click each die to freeze it at its current value between rolls.
