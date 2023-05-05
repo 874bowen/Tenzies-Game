@@ -29,18 +29,22 @@ function App() {
 	const [isStarted, setIsStarted] = useState(false);
 	const [elapsedTime, setElapsedTime] = useState<number>(0);
 
-	const [rolls, setRolls] = useState(0)
+	const [rolls, setRolls] = useState(0);
 
 	const [count, setCount] = useState<number>(0);
+
+	const [bestScore, setBestScore] = useState<any>(
+		localStorage.getItem("bestScore") ? localStorage.getItem("bestScore") : null
+	);
 
 	useEffect(() => {
 		let intervalId: number;
 		if (isStarted) {
-		intervalId = setInterval(() => {
-		setCount(count => count + 1);
-	}, 1000);
-	}
-	return () => clearInterval(intervalId);
+			intervalId = setInterval(() => {
+				setCount((count) => count + 1);
+			}, 1000);
+		}
+		return () => clearInterval(intervalId);
 	}, [isStarted]);
 
 	useEffect(() => {
@@ -53,15 +57,31 @@ function App() {
 			return die.value === firstValue;
 		});
 		if (allHeld && allSameValue) {
-			setElapsedTime(count)
+			setElapsedTime(count);
 			setTenzies(true);
 			console.log(tenzies);
 			console.log("You won");
+			if (bestScore === "null") {
+				console.log("this is ", bestScore);
+				localStorage.setItem("bestScore", JSON.stringify({bestTime: elapsedTime, bestRolls: rolls}))
+			} else if (bestScore) {
+				console.log(bestScore);
+				const {bestTime, bestRolls} = JSON.parse(bestScore)
+				const  result = {
+					bestTime: count < bestTime ? count : bestTime,
+					bestRolls: rolls < bestRolls ? rolls : bestRolls
+				}
+				localStorage.setItem("bestScore", JSON.stringify(result))
+			} else {
+				console.log(bestScore);
+				localStorage.setItem("bestScore", JSON.stringify({bestTime: elapsedTime, bestRolls: rolls}))
+			}
 		}
+		
 	}, [dice]);
 
 	function holdDice(id: string): void {
-		setIsStarted(true)
+		setIsStarted(true);
 		setDice((oldDice): Die[] => {
 			return oldDice.map((die) => {
 				return die.id == id ? { ...die, isHeld: !die.isHeld } : die;
@@ -82,15 +102,15 @@ function App() {
 
 	function rollDice() {
 		if (tenzies) {
-			setTenzies(false)
-			setRolls(-1)
-			setIsStarted(false)
-			setCount(0)
-			setElapsedTime(0)
+			setTenzies(false);
+			setRolls(-1);
+			setIsStarted(false);
+			setCount(0);
+			setElapsedTime(0);
 			setDice(allNewDice());
 		}
-		setIsStarted(true)
-		setRolls(prevRolls => prevRolls + 1)
+		setIsStarted(true);
+		setRolls((prevRolls) => prevRolls + 1);
 		setDice((oldDice): Die[] => {
 			return oldDice.map((die) => {
 				return die.isHeld ? die : generateNewDie();
@@ -102,13 +122,16 @@ function App() {
 		<section className="wrapper-section">
 			{tenzies && <Confetti />}
 			<h1>Tenzies</h1>
-			<h4>Rolls: {rolls} Time: {elapsedTime > 0 ? elapsedTime : count}</h4>
+			{bestScore && <h5 style={{color: "green"}}>Best Time: {JSON.parse(bestScore).bestTime}, Best Rolls: {JSON.parse(bestScore).bestRolls}</h5>}
+			<h4>
+				Rolls: {rolls} Time: {elapsedTime > 0 ? elapsedTime : count}
+			</h4>
 			<p className="instructions center">
 				Roll until all dice are the same.
 				<br /> Click each die to freeze it at its current value between rolls.
 			</p>
 			<div className="game-div">{diceElements}</div>
-			<button onClick={rollDice} >{tenzies ? "New Game": "Roll"}</button>
+			<button onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
 		</section>
 	);
 }
