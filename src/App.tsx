@@ -64,6 +64,7 @@ function App() {
 			if (bestScore === "null") {
 				console.log("this is ", bestScore);
 				localStorage.setItem("bestScore", JSON.stringify({bestTime: elapsedTime, bestRolls: rolls}))
+				setBestScore(JSON.stringify({bestTime: elapsedTime, bestRolls: rolls}))
 			} else if (bestScore) {
 				console.log(bestScore);
 				const {bestTime, bestRolls} = JSON.parse(bestScore)
@@ -72,6 +73,7 @@ function App() {
 					bestRolls: rolls < bestRolls ? rolls : bestRolls
 				}
 				localStorage.setItem("bestScore", JSON.stringify(result))
+				setBestScore(JSON.stringify(result))
 			} else {
 				console.log(bestScore);
 				localStorage.setItem("bestScore", JSON.stringify({bestTime: elapsedTime, bestRolls: rolls}))
