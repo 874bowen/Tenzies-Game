@@ -69,7 +69,7 @@ function App() {
 				console.log(bestScore);
 				const {bestTime, bestRolls} = JSON.parse(bestScore)
 				const  result = {
-					bestTime: count < bestTime ? count : bestTime,
+					bestTime: count < bestTime && bestTime !== 0 ? count : bestTime,
 					bestRolls: rolls < bestRolls ? rolls : bestRolls
 				}
 				localStorage.setItem("bestScore", JSON.stringify(result))
@@ -124,7 +124,7 @@ function App() {
 		<section className="wrapper-section">
 			{tenzies && <Confetti />}
 			<h1>Tenzies</h1>
-			{bestScore && <h5 style={{color: "green"}}>Best Time: {JSON.parse(bestScore).bestTime}, Best Rolls: {JSON.parse(bestScore).bestRolls}</h5>}
+			{bestScore && <h5 style={{color: "green"}}>Best Rolls: {JSON.parse(bestScore).bestRolls}, Best Time: {JSON.parse(bestScore).bestTime}</h5>}
 			<h4>
 				Rolls: {rolls} Time: {elapsedTime > 0 ? elapsedTime : count}
 			</h4>
